@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>One Year With You 💜🥜</title>
+
+<style>
+:root{
+  --bg1:#0f1024;
+  --bg2:#1b1e3c;
+  --card:rgba(255,255,255,.10);
+  --text:#ffffff;
+  --muted:rgba(255,255,255,.75);
+  --pink:#ff8acb;
+  --blue:#7afcff;
+  --radius:22px;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 20% 10%, rgba(255,138,203,.25), transparent 60%),
+    radial-gradient(800px 600px at 80% 30%, rgba(122,252,255,.22), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  overflow-x:hidden;
+}
+
+.wrapper{
+  width:min(1000px,92vw);
+  margin:auto;
+  padding:30px 0 80px;
+}
+
+header{
+  background:linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,.05));
+  border-radius:var(--radius);
+  padding:28px;
+  box-shadow:0 30px 70px rgba(0,0,0,.35);
+}
+
+header h1{
+  margin:10px 0;
+  font-size:clamp(30px,4vw,48px);
+}
+
+header p{
+  margin:0;
+  color:var(--muted);
+  max-width:60ch;
+}
+
+section{
+  margin-top:22px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.grid{
+  display:grid;
+  gap:18px;
+}
+
+@media(min-width:800px){
+  .grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+h2{
+  margin-top:0;
+}
+
+.countdown{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+
+.time{
+  flex:1;
+  background:rgba(255,255,255,.15);
+  border-radius:14px;
+  padding:10px;
+  text-align:center;
+}
+
+.time span{
+  display:block;
+  font-size:24px;
+  font-weight:700;
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:10px;
+}
+
+.gallery img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:16px;
+}
+
+.love-note{
+  font-size:16px;
+  line-height:1.6;
+  color:var(--muted);
+}
+
+footer{
+  margin-top:40px;
+  text-align:center;
+  color:var(--muted);
+}
+
+/* floating hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:20px;
+  animation:float 8s linear infinite;
+  opacity:.7;
+}
+
+@keyframes float{
+  from{transform:translateY(0)}
+  to{transform:translateY(-120vh)}
+}
+
+.photo{
+  position:relative;
+  border-radius:16px;
+  overflow:hidden;
+  background: rgba(255,255,255,.08);
+}
+
+.photo img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  display:block;
+}
+
+.caption{
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:10px;
+  padding:8px 10px;
+  border-radius:12px;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(10px);
+  color: rgba(255,255,255,.92);
+  font-size:13px;
+  line-height:1.25;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.caption small{
+  display:block;
+  margin-top:4px;
+  color: rgba(255,255,255,.70);
+  font-size:11px;
+}
+
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+
+<header>
+  <h1>One Year With the Love of My Life! 💜</h1>
+  <p>
+    A lil countdown for my baby, to remind her of the awesome milestone ahead of us, and the amazing time we've had writing our story. With all the love in the world, your aşkim.
+  </p>
+</header>
+
+<section class="grid">
+
+  <div class="card">
+    <h2>Jan 28 💘</h2>
+    <p>The day we first met</p>
+    <div class="countdown" id="cd-met"></div>
+  </div>
+
+  <div class="card">
+    <h2>Feb 7 ✨</h2>
+    <p>Unofficial one year</p>
+    <div class="countdown" id="cd-unofficial"></div>
+  </div>
+
+  <div class="card">
+    <h2>Feb 15 🥳</h2>
+    <p>Official one year</p>
+    <div class="countdown" id="cd-official"></div>
+  </div>
+
+</section>
+
+<section class="card">
+  <h2>My Favorite Pictures!!</h2>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section class="card">
+  <h2>A Note for You 💌</h2>
+  <p class="love-note">
+    I still can’t believe how one random RTD turned into us and our story.
+    Thank you for loving me, for choosing me, and for being my favorite
+    person in this whole universe. I’d choose you in every lifetime, peanut.
+  </p>
+</section>
+
+<footer>
+  I love you to the ever expanding universe and back, always 💖
+</footer>
+
+</div>
+
+<script>
+function nextOccurrence(month, day){
+  const now = new Date();
+  const y = now.getFullYear();
+  let d = new Date(y, month, day);
+  if (d <= now) d = new Date(y + 1, month, day);
+  return d;
+}
+
+const milestones = {
+  met: nextOccurrence(0, 28),        // Jan 28
+  unofficial: nextOccurrence(1, 7),  // Feb 7
+  official: nextOccurrence(1, 15)    // Feb 15
+};
+
+function renderCountdown(el, target){
+  const now = new Date();
+  let diff = target - now;
+  if (diff < 0) diff = 0;
+
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor(diff / 3600000) % 24;
+  const m = Math.floor(diff / 60000) % 60;
+  const s = Math.floor(diff / 1000) % 60;
+
+  el.innerHTML = `
+    <div class="time"><span>${d}</span>days</div>
+    <div class="time"><span>${h}</span>hrs</div>
+    <div class="time"><span>${m}</span>min</div>
+    <div class="time"><span>${s}</span>sec</div>
+  `;
+}
+
+setInterval(()=>{
+  renderCountdown(document.getElementById("cd-met"), milestones.met);
+  renderCountdown(document.getElementById("cd-unofficial"), milestones.unofficial);
+  renderCountdown(document.getElementById("cd-official"), milestones.official);
+},1000);
+
+/* floating hearts */
+setInterval(()=>{
+  const h = document.createElement("div");
+  h.className="heart";
+  h.innerText=Math.random()>0.5?"💜":"🥜";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=6+Math.random()*4+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),10000);
+},600);
+
+/* auto-load photos + captions */
+const photos = [
+  { file: "1.jpg", caption: "me when im talking to u🥺"},
+  { file: "2.jpg", caption: "my salty baby 💜"},
+  { file: "3.jpg", caption: "Can I get a kiss?"},
+  { file: "4.jpg", caption: "Us when tea 😭"},
+  { file: "5.jpg", caption: "Can you tell I'm missing your kisses?"},
+  { file: "6.jpg", caption: "kissing everywhere!"},
+  // add more like this ↓
+  // { file: "6.jpg", caption: "...", sub: "..." },
+];
+
+const gallery = document.getElementById("gallery");
+
+photos.forEach(p => {
+  const wrap = document.createElement("div");
+  wrap.className = "photo";
+
+  const img = document.createElement("img");
+  img.src = `photos/${p.file}`;
+  img.loading = "lazy";
+
+  const cap = document.createElement("div");
+  cap.className = "caption";
+  cap.innerHTML = `${p.caption}${p.sub ? `<small>${p.sub}</small>` : ""}`;
+
+  img.onerror = () => wrap.remove(); // if missing file, remove whole tile
+
+  wrap.appendChild(img);
+  wrap.appendChild(cap);
+  gallery.appendChild(wrap);
+});
+
+
+</script>
+
+</body>
+</html>
